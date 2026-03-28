@@ -1,0 +1,170 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #000000;
+  background: #FFFFFF;
+}
+
+/* CV content wrapper - for PDF and preview */
+#cv-content {
+  width: 100%;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 20mm 25mm;
+  background: #FFFFFF;
+  color: #000000;
+  font-family: Arial, sans-serif;
+}
+
+#cv-content .cv-section {
+  margin-bottom: 14px;
+}
+
+#cv-content .cv-section-title {
+  font-size: 17px;
+  font-weight: bold;
+  color: #000000;
+  margin: 0 0 8px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #666666;
+  letter-spacing: 0.02em;
+}
+
+#cv-content p {
+  margin: 0 0 6px 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #333333;
+}
+
+#cv-content a {
+  color: #000000;
+  text-decoration: none;
+}
+
+#cv-content a:hover {
+  text-decoration: underline;
+}
+
+/* App layout */
+.app-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  min-height: 100vh;
+  padding: 12px;
+  align-items: flex-start;
+}
+
+.app-header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 900px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .app-header {
+    margin-bottom: 4px;
+  }
+}
+
+.edit-panel {
+  background: #FFFFFF;
+  border: 1px solid #666666;
+  padding: 12px;
+  position: sticky;
+  top: 8px;
+}
+
+.edit-panel h2:first-child {
+  margin-top: 0;
+}
+
+.edit-panel h2 {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #000000;
+  margin: 0 0 16px 0;
+}
+
+.edit-panel label {
+  display: block;
+  font-size: 11px;
+  color: #333333;
+  margin-bottom: 2px;
+}
+
+.edit-panel input,
+.edit-panel textarea {
+  width: 100%;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  padding: 6px;
+  margin-bottom: 6px;
+  border: 1px solid #666666;
+  color: #000000;
+  background: #FFFFFF;
+}
+
+.edit-panel textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.preview-panel {
+  background: #f5f5f5;
+  padding: 12px;
+}
+
+.download-btn {
+  display: block;
+  width: 100%;
+  max-width: 210mm;
+  margin: 0 auto 8px auto;
+  padding: 8px 16px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #000000;
+  border: none;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  background: #333333;
+}
+
+@media (max-width: 900px) {
+  .edit-panel {
+    position: static;
+    top: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-layout {
+    padding: 8px;
+    gap: 10px;
+  }
+
+  .preview-panel {
+    padding: 8px;
+  }
+
+  #cv-content {
+    padding: 16px 14px;
+  }
+}
