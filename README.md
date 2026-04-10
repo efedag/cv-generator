@@ -26,6 +26,8 @@ A modern, ATS-friendly CV/resume builder built with **React** and **TypeScript**
 
 ## 🖼️ Screenshots
 
+_Regenerate with `npm run screenshots` after UI changes (requires Playwright Chromium: `npx playwright install chromium`)._
+
 ### Full Overview — Edit Form & Live Preview
 
 ![Full Overview](screenshots/full-overview.png)
@@ -72,6 +74,7 @@ cv-generator/
 ├── package.json                   # Dependencies & scripts
 ├── vite.config.ts                 # Vite configuration
 ├── vercel.json                    # Vercel deployment config
+├── scripts/                       # 🖼️ capture-readme-screenshots.mjs (Playwright)
 │
 ├── public/                        # 🌐 Static Assets
 │   ├── favicon.svg                # App favicon
