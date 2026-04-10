@@ -1,3 +1,21 @@
+/** Önizlemede kişisel bilgiden sonra gelen bölümlerin sırası */
+export type CvSectionId =
+  | 'summary'
+  | 'skills'
+  | 'experience'
+  | 'education'
+  | 'projects'
+  | 'certifications';
+
+export const DEFAULT_SECTION_ORDER: CvSectionId[] = [
+  'summary',
+  'skills',
+  'experience',
+  'education',
+  'projects',
+  'certifications',
+];
+
 export interface PersonalInfo {
   fullName: string;
   title: string;
@@ -54,4 +72,6 @@ export interface CVData {
   education: EducationItem[];
   projects: ProjectItem[];
   certifications: CertificationItem[];
+  /** Yoksa {@link DEFAULT_SECTION_ORDER} kullanılır */
+  sectionOrder?: CvSectionId[];
 }

@@ -1,4 +1,5 @@
 import type { CVData } from '../types/cv.types';
+import { DEFAULT_SECTION_ORDER } from '../types/cv.types';
 
 export const defaultCV: CVData = {
   personalInfo: {
@@ -46,4 +47,5 @@ export const defaultCV: CVData = {
     },
   ],
   certifications: [],
+  sectionOrder: [...DEFAULT_SECTION_ORDER],
 };

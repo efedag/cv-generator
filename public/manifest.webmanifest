@@ -1,0 +1,18 @@
+{
+  "name": "CV Generator",
+  "short_name": "CV Gen",
+  "description": "Tarayıcıda CV oluşturun ve PDF/Word olarak dışa aktarın.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

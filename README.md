@@ -7,7 +7,7 @@ A modern, ATS-friendly CV/resume builder built with **React** and **TypeScript**
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-🔗 **Live Demo:** [cvgenetor.vercel.app](https://cvgenetor.vercel.app)
+🔗 **Live demo:** No default URL — after you deploy (e.g. [Vercel](https://vercel.com)), replace this line with your own production link if you want it in the README.
 
 ---
 
@@ -94,16 +94,25 @@ cv-generator/
 │   │   └── Certifications.tsx     # Certification entries
 │   │
 │   ├── data/                      # 📋 Default Data
-│   │   └── defaultCV.ts           # Empty CV template
+│   │   ├── defaultCV.ts           # Empty CV template
+│   │   └── templates.ts           # Starter templates (blank / samples)
 │   │
 │   ├── hooks/                     # 🪝 Custom Hooks
-│   │   └── useLocalStorage.ts     # State management hook
+│   │   └── useCvAppState.ts       # Profiles, theme, margins, persistence
+│   │
+│   ├── storage/                   # 💾 Persistence
+│   │   └── cvAppStorage.ts        # Versioned localStorage read/write
 │   │
 │   ├── types/                     # 📐 TypeScript Types
-│   │   └── cv.types.ts            # CV data model interfaces
+│   │   ├── cv.types.ts            # CV data model interfaces
+│   │   └── appState.types.ts      # App UI + profile list types
 │   │
 │   └── utils/                     # ⚙️ Utilities
-│       └── pdfGenerator.ts        # html2pdf.js wrapper
+│       ├── pdfGenerator.ts        # html2pdf.js wrapper
+│       ├── exportDocx.ts          # Word export (docx)
+│       ├── exportMarkdown.ts      # Markdown export
+│       ├── cvJsonFile.ts          # JSON import/export helpers
+│       └── cvValidation.ts        # Soft validation + hints
 │
 └── screenshots/                   # 🖼️ README screenshots
 ```

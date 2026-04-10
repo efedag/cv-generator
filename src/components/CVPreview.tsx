@@ -1,5 +1,7 @@
-import type { CVData } from '../types/cv.types';
+import type { ReactNode } from 'react';
+import type { CVData, CvSectionId } from '../types/cv.types';
 import type { Language } from '../App';
+import type { PreviewMargin } from '../types/appState.types';
 import { PersonalInfo } from './PersonalInfo';
 import { Summary } from './Summary';
 import { Skills } from './Skills';
@@ -8,58 +10,50 @@ import { Education } from './Education';
 import { Projects } from './Projects';
 import { Certifications } from './Certifications';
 import { generatePDF } from '../utils/pdfGenerator';
+import { getSectionOrder } from '../utils/cvDataNormalize';
+import { ExportBar } from './ExportBar';
+import { cvBaseFilename } from '../utils/cvFilename';
 
 interface CVPreviewProps {
   data: CVData;
   language: Language;
+  previewMargin: PreviewMargin;
 }
 
-function toAtsFriendlyFilename(fullName: string): string {
-  const normalized = fullName
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/ç/g, 'c')
-    .replace(/ğ/g, 'g')
-    .replace(/ı/g, 'i')
-    .replace(/ö/g, 'o')
-    .replace(/ş/g, 's')
-    .replace(/ü/g, 'u')
-    .replace(/[^a-z0-9\s]/g, ' ')
-    .trim()
-    .replace(/\s+/g, ' ');
-
-  if (!normalized) return 'cv';
-
-  const parts = normalized.split(' ');
-  const first = parts[0];
-  const last = parts.length > 1 ? parts[parts.length - 1] : '';
-  const base = last ? `${first}_${last}` : first;
-
-  return base;
-}
-
-export function CVPreview({ data, language }: CVPreviewProps) {
+export function CVPreview({ data, language, previewMargin }: CVPreviewProps) {
   const isTr = language === 'tr';
 
   const handleDownload = () => {
-    const filenameBase = toAtsFriendlyFilename(data.personalInfo.fullName);
-    generatePDF(`${filenameBase || 'cv'}.pdf`).catch(console.error);
+    const filenameBase = cvBaseFilename(data.personalInfo.fullName);
+    generatePDF(`${filenameBase || 'cv'}.pdf`, data).catch(console.error);
+  };
+
+  const order = getSectionOrder(data);
+  const sectionBlocks: Record<CvSectionId, ReactNode> = {
+    summary: <Summary key="summary" text={data.summary} language={language} />,
+    skills: <Skills key="skills" data={data.skills} language={language} />,
+    experience: <Experience key="experience" items={data.experience} language={language} />,
+    education: <Education key="education" items={data.education} language={language} />,
+    projects: <Projects key="projects" items={data.projects} language={language} />,
+    certifications: (
+      <Certifications key="certifications" items={data.certifications} language={language} />
+    ),
   };
 
   return (
     <div className="preview-panel">
-      <button type="button" className="download-btn" onClick={handleDownload}>
-        {isTr ? 'PDF İndir' : 'Download PDF'}
-      </button>
-      <div id="cv-content">
+      <div className="preview-actions">
+        <button type="button" className="download-btn" onClick={handleDownload}>
+          {isTr ? 'PDF İndir' : 'Download PDF'}
+        </button>
+        <button type="button" className="print-pdf-btn" onClick={() => window.print()}>
+          {isTr ? 'Yazdır (metinli PDF)' : 'Print (searchable PDF)'}
+        </button>
+      </div>
+      <ExportBar data={data} language={language} />
+      <div id="cv-content" className={`cv-margin-${previewMargin}`}>
         <PersonalInfo data={data.personalInfo} language={language} />
-        <Summary text={data.summary} language={language} />
-        <Skills data={data.skills} language={language} />
-        <Experience items={data.experience} language={language} />
-        <Education items={data.education} language={language} />
-        <Projects items={data.projects} language={language} />
-        <Certifications items={data.certifications} language={language} />
+        {order.map((id) => sectionBlocks[id])}
       </div>
     </div>
   );
