@@ -1,48 +1,72 @@
 # 📄 CV Generator
 
-A modern, ATS-friendly CV/resume builder built with **React** and **TypeScript**. Features a live preview, bilingual TR/EN interface, structured sections, and one-click PDF export.
+A modern, **ATS-friendly** CV/resume builder built with **React** and **TypeScript**. Everything runs in the browser: live preview, **Turkish / English** UI, structured sections, **multiple profiles** with **local persistence**, rich **export** options, and optional **PWA** install on supported browsers.
 
+[![GitHub](https://img.shields.io/badge/GitHub-repo-181717?logo=github)](https://github.com/efedag/cv-generator)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-🔗 **Live demo:** No default URL — after you deploy (e.g. [Vercel](https://vercel.com)), replace this line with your own production link if you want it in the README.
+🔗 **Live demo:** Add your own production URL here after you deploy (for example with [Vercel](https://vercel.com)).
+
+📋 **Changelog:** [CHANGELOG.md](./CHANGELOG.md) · **Releases:** [GitHub Releases](https://github.com/efedag/cv-generator/releases)
 
 ---
 
 ## 🚀 Features
 
-- 📝 **Live Preview** — see your CV update in real-time as you type
-- 🌐 **Bilingual Interface** — full Turkish and English support with dynamic language switching
-- 📄 **PDF Export** — one-click download with ATS-optimized filename (e.g. `john_doe.pdf`)
-- 📱 **Responsive Design** — works seamlessly on desktop, tablet, and mobile
-- 🎯 **ATS-Friendly Layout** — clean, single-column CV format optimized for applicant tracking systems
-- 🧩 **Modular Sections** — personal info, summary, skills, experience, education, projects, certifications
-- ➕ **Dynamic Entries** — add or remove experience, education, project, and certification entries on the fly
-- 🔤 **Smart Filename** — auto-generates PDF filename from your name with Turkish character normalization
+### Editing & content
+
+- 📝 **Live preview** — the CV updates as you type
+- 🌐 **Bilingual UI** — Turkish and English labels, placeholders, and section titles
+- 👤 **Multiple profiles** — several named CVs; switch from the header bar
+- 💾 **Auto-save** — versioned state in `localStorage` (per browser); **Ctrl+S / ⌘S** shows a short confirmation toast
+- 📋 **Templates** — blank + sample CVs; apply from the form toolbar
+- 🔁 **Section order** — reorder sections (summary, skills, experience, etc.); order is reflected in preview and exports
+- ✅ **Soft validation** — hints for empty fields, email shape, and summary length
+
+### Import
+
+- 📥 **JSON** — import/export structured CV data
+- 📄 **PDF** — **embedded payload** round-trip for PDFs downloaded from this app; older or external PDFs fall back to **text extraction** and **OCR** (Tesseract) when needed
+
+### Export
+
+- 📄 **PDF** — raster export via **html2pdf.js** (html2canvas + jsPDF); **print** path for searchable text
+- 📝 **Word (.docx)** — via the `docx` library
+- 📑 **Markdown** and **plain text**
+- 🔤 **Smart filenames** — derived from the full name with Turkish character normalization (e.g. `Ömer Çelik` → `omer_celik.pdf`)
+
+### Experience
+
+- 🌓 **Dark theme** — editor chrome; preview “paper” stays light for readability
+- 📐 **Preview margins** — compact / normal / spacious
+- 📱 **Responsive** — two-column desktop layout; stacked layout on small screens
+- ♿ **Accessibility** — skip link, associated labels on main controls, screen-reader-oriented copy where relevant
+- 📲 **PWA** — web manifest + service worker in production builds (offline-friendly caching of same-origin assets)
 
 ---
 
 ## 🖼️ Screenshots
 
-_Regenerate with `npm run screenshots` after UI changes (requires Playwright Chromium: `npx playwright install chromium`)._
+_Regenerate after UI changes: `npm run screenshots` (one-time: `npx playwright install chromium`)._
 
-### Full Overview — Edit Form & Live Preview
+### Full overview — edit form & live preview
 
-![Full Overview](screenshots/full-overview.png)
+![Full overview](screenshots/full-overview.png)
 
-### CV Preview
+### CV preview
 
-![CV Preview](screenshots/cv-preview.png)
+![CV preview](screenshots/cv-preview.png)
 
-### Edit Form
+### Edit form
 
-![Edit Form](screenshots/edit-form.png)
+![Edit form](screenshots/edit-form.png)
 
-### Mobile View
+### Mobile view
 
-![Mobile View](screenshots/mobile-view.png)
+![Mobile view](screenshots/mobile-view.png)
 
 ---
 
@@ -58,113 +82,117 @@ npm install
 
 ## ▶️ Usage
 
-```bash
-npm run dev
-```
-
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+| Command | Description |
+| --------| ------------|
+| `npm run dev` | Dev server (default [http://localhost:5173](http://localhost:5173)) |
+| `npm run build` | Typecheck + production bundle to `dist/` |
+| `npm run preview` | Serve `dist/` locally (useful before deploy) |
+| `npm run test` | Unit tests (Vitest) |
+| `npm run lint` | ESLint |
+| `npm run screenshots` | Regenerate `screenshots/*.png` (Playwright) |
 
 ---
 
-## 🧩 Architecture Overview
+## 🔒 Data & privacy
+
+- **No backend** — no account server; CV data stays in **this browser** unless you export files.
+- Clearing site data or using another browser/device does **not** sync profiles; use **JSON export** as a backup.
+
+---
+
+## 🚢 Deployment (Vercel)
+
+The repo includes [`vercel.json`](./vercel.json): Vite build output (`dist`), SPA fallback rewrite, and headers for `sw.js` / `manifest.webmanifest`. Connect the GitHub repository in the Vercel dashboard and deploy; production builds register the service worker automatically.
+
+---
+
+## 🧩 Project layout
 
 ```
 cv-generator/
-├── index.html                     # Entry HTML
-├── package.json                   # Dependencies & scripts
-├── vite.config.ts                 # Vite configuration
-├── vercel.json                    # Vercel deployment config
-├── scripts/                       # 🖼️ capture-readme-screenshots.mjs (Playwright)
-│
-├── public/                        # 🌐 Static Assets
-│   ├── favicon.svg                # App favicon
-│   └── icons.svg                  # UI icons
-│
-├── src/                           # 📂 Source Code
-│   ├── main.tsx                   # React entry point
-│   ├── App.tsx                    # Root layout & language toggle
-│   ├── index.css                  # Global styles & responsive layout
-│   │
-│   ├── components/                # 🧱 UI Components
-│   │   ├── EditForm.tsx           # Full editing form (all sections)
-│   │   ├── CVPreview.tsx          # Preview wrapper & PDF trigger
-│   │   ├── PersonalInfo.tsx       # Name, title, contact, links
-│   │   ├── Summary.tsx            # Professional summary
-│   │   ├── Skills.tsx             # Technical skills (categorized)
-│   │   ├── Experience.tsx         # Work experience entries
-│   │   ├── Education.tsx          # Education entries
-│   │   ├── Projects.tsx           # Project entries
-│   │   └── Certifications.tsx     # Certification entries
-│   │
-│   ├── data/                      # 📋 Default Data
-│   │   ├── defaultCV.ts           # Empty CV template
-│   │   └── templates.ts           # Starter templates (blank / samples)
-│   │
-│   ├── hooks/                     # 🪝 Custom Hooks
-│   │   └── useCvAppState.ts       # Profiles, theme, margins, persistence
-│   │
-│   ├── storage/                   # 💾 Persistence
-│   │   └── cvAppStorage.ts        # Versioned localStorage read/write
-│   │
-│   ├── types/                     # 📐 TypeScript Types
-│   │   ├── cv.types.ts            # CV data model interfaces
-│   │   └── appState.types.ts      # App UI + profile list types
-│   │
-│   └── utils/                     # ⚙️ Utilities
-│       ├── pdfGenerator.ts        # html2pdf.js wrapper
-│       ├── exportDocx.ts          # Word export (docx)
-│       ├── exportMarkdown.ts      # Markdown export
-│       ├── cvJsonFile.ts          # JSON import/export helpers
-│       └── cvValidation.ts        # Soft validation + hints
-│
-└── screenshots/                   # 🖼️ README screenshots
+├── CHANGELOG.md
+├── LICENSE
+├── index.html
+├── package.json
+├── vite.config.ts
+├── vitest.config.ts
+├── vercel.json
+├── scripts/
+│   └── capture-readme-screenshots.mjs   # Playwright → screenshots/*.png
+├── public/
+│   ├── icons.svg
+│   ├── manifest.webmanifest
+│   └── sw.js                            # Service worker (production)
+├── screenshots/                         # README images
+└── src/
+    ├── main.tsx                         # Entry; SW registration in production
+    ├── App.tsx
+    ├── index.css
+    ├── components/                      # EditForm, CVPreview, ExportBar, ProfileBar,
+    │                                    # ThemeMarginControls, Toast, ValidationHints,
+    │                                    # SectionOrderControls, PersonalInfo, Summary,
+    │                                    # Skills, Experience, Education, Projects, Certifications
+    ├── data/                            # defaultCV.ts, templates.ts
+    ├── hooks/                           # useCvAppState.ts
+    ├── i18n/                            # Section labels for reorder UI
+    ├── storage/                         # cvAppStorage.ts (versioned localStorage)
+    ├── types/                           # cv.types.ts, appState.types.ts
+    └── utils/                           # PDF, DOCX, MD, JSON, validation, normalize, tests…
 ```
 
----
-
-## ⚙️ How It Works
-
-### Two-Column Layout
-
-The app uses a CSS Grid layout with two equal columns. The **left panel** contains the full editing form, and the **right panel** shows a live-rendered CV preview that updates instantly as you type.
-
-### CV Sections
-
-| Section              | Description                                                       |
-| -------------------- | ----------------------------------------------------------------- |
-| **Personal Info**    | Full name, title, phone, email, LinkedIn, GitHub, location        |
-| **Summary**          | Free-text professional summary (2–4 sentences)                    |
-| **Technical Skills** | Categorized: Languages, Frontend, Backend, Databases, Tools       |
-| **Experience**       | Position, company, date range, location, responsibilities, tech   |
-| **Education**        | Institution, degree, graduation date, GPA                        |
-| **Projects**         | Name, description, technologies, GitHub URL                       |
-| **Certifications**   | Certificate name, issuer, date                                    |
-
-### PDF Generation
-
-Uses **html2pdf.js** (html2canvas + jsPDF) to capture the `#cv-content` DOM node and export it as an A4 PDF. The filename is auto-generated from the user's name with special character normalization (e.g. `Ömer Çelik` → `omer_celik.pdf`).
-
-### Language System
-
-All UI labels, placeholders, section titles, and button texts are dynamically switched between **Turkish** and **English** via a simple language toggle in the header.
+For a full file list, browse [`src/`](./src/) on GitHub.
 
 ---
 
-## 🛠️ Tech Stack
+## ⚙️ How it works
 
-| Component        | Technology                           |
-| ---------------- | ------------------------------------ |
-| **Framework**    | React 19                             |
-| **Language**     | TypeScript 5.9                       |
-| **Build Tool**   | Vite 8                               |
-| **PDF Engine**   | html2pdf.js (html2canvas + jsPDF)    |
-| **Styling**      | CSS (Grid layout, responsive)        |
-| **Linting**      | ESLint 9 + typescript-eslint         |
-| **Deployment**   | Vercel                               |
+### Layout
+
+CSS **Grid**: **left** — full edit form; **right** — live CV preview. On narrow viewports the layout stacks.
+
+### CV sections
+
+| Section | Description |
+| --------| ------------|
+| **Personal info** | Name, title, phone, email, LinkedIn, GitHub, location |
+| **Summary** | Free-text professional summary |
+| **Technical skills** | General + categorized lines (languages, frontend, backend, databases, tools) |
+| **Experience** | Company, role, dates, location, bullets, technologies |
+| **Education** | Institution, degree, dates, GPA |
+| **Projects** | Name, description, stack, links |
+| **Certifications** | Name, issuer, date |
+
+### PDF export
+
+**Download PDF** uses **html2pdf.js** to capture the `#cv-content` region as an A4 PDF. **Print** uses the browser print pipeline for text-friendly output. PDFs produced here can embed structured CV data for **accurate re-import**; other PDFs may use text/OCR heuristics.
+
+### Language
+
+UI strings switch between **Turkish** and **English** from the header; `document.documentElement.lang` is updated for accessibility.
 
 ---
 
-## 👨‍💻 Developer
+## 🛠️ Tech stack
+
+| Area | Technology |
+| ---- | ----------|
+| UI | React 19, TypeScript |
+| Build | Vite 8 |
+| PDF (raster) | html2pdf.js (html2canvas, jsPDF) |
+| PDF (embed / parse) | pdf-lib |
+| PDF text | pdf.js |
+| OCR | Tesseract.js |
+| Word | docx |
+| Tests | Vitest |
+| Screenshot automation | Playwright (dev) |
+| Lint | ESLint 9, typescript-eslint |
+| Deploy | Vercel (example) |
+
+`tailwindcss` is listed in `package.json` but the UI is primarily **hand-written CSS** in `src/index.css`.
+
+---
+
+## 👨‍💻 Author
 
 **Efe Dag**
 
@@ -172,17 +200,15 @@ All UI labels, placeholders, section titles, and button texts are dynamically sw
 
 ## 📌 Notes
 
-- Clean, minimal CV design optimized for ATS parsing
-- No external CSS frameworks — lightweight, hand-written styles
-- Fully client-side — no backend or database required
-- Responsive layout adapts from desktop two-column to mobile single-column
+- Client-side only — suitable for static hosting.
+- Designed for a **clean, single-column** CV preview suitable for many ATS parsers; always verify against the target job portal.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — feel free to use, modify, and distribute.
+This project is licensed under the **MIT License** — see [LICENSE](./LICENSE).
 
 ---
 
-⭐ **If you like the project, feel free to star the repository!**
+⭐ If you find this useful, consider starring the repository.
