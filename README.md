@@ -8,7 +8,7 @@ A modern, **ATS-friendly** CV/resume builder built with **React** and **TypeScri
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-🔗 **Live demo:** Add your own production URL here after you deploy (for example with [Vercel](https://vercel.com)).
+🔗 **Live demo:** https://cvgenetor.vercel.app/
 
 📋 **Changelog:** [CHANGELOG.md](./CHANGELOG.md) · **Releases:** [GitHub Releases](https://github.com/efedag/cv-generator/releases)
 
